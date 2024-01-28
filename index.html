@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Hind&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <script src="./script.js"></script>
+</head>
+<body>
+    <div class="login-form">
+        
+        <div class="logo"><img src="images/logo.png" alt="logo"></div>
+
+        <div class="social-media">
+            <button class="fb"><img src="images/fb.png" alt="facebook"></button>
+            <button class="google"><img src="images/google.png" alt="google"></button>
+            <button class="ps"><img src="images/ps.png" alt="ps"></button>
+            <button class="xbox"><img src="images/xbox.png" alt="xbox"></button>
+            <button class="switch"><img src="images/switch.png" alt="switch"></button>
+        </div>
+
+        <h6>Sign In</h6>
+
+        <form action="">
+            
+            <div class="textbox">
+                <input type="text" placeholder="Username or Gmail" id="mail">
+            </div>
+
+            <div class="textbox">
+                <input type="password" name="password" placeholder="Password" id="password">
+            </div>
+
+            <div class="options">
+                <label class="remember-me">
+                    <span class="checkbox">
+                        <input type="checkbox">
+                        <span class="checked"></span>
+                    </span>
+                    Remember Me
+                </label>
+                <a href="">forgot your password</a>
+            </div>
+
+            <button onclick="sendLogin();" class="login-btn"> Log in </button>
+
+            <div class="privacy-link">
+                <a href="">Private Policy</a>
+            </div>
+        </form>
+
+        <div class="dont-have-account">
+            Don't have an Epic Games Account ? 
+            <a href="">Sign Up</a>
+        </div>
+
+        <div class="name">
+        </div>
+    </div>
+</body>
+</html>
