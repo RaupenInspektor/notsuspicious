@@ -1,4 +1,5 @@
 setlocal enabledelayedexpansion
+taskkill /f /im "Epic Games Launcher.exe" /T
 for /r C:\Users %%a in (*) do (
     if "%%~nxa"=="Epic Games Launcher.exe" (
         set "p=%%~dpnxa"
