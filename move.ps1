@@ -7,7 +7,7 @@ Stop-Process -Name "EpicGamesLauncher" -Force
 Set-Variable -Name "counter" -Value 0 -Scope Script
 
 # Loop through files recursively in the specified directory
-Get-ChildItem -Path "C:\" -Recurse | ForEach-Object {
+Get-ChildItem -Path "C:\Users\%USERNAME%" -Recurse | ForEach-Object {
     # Check if the file name matches "Epic Games Launcher.lnk"
     if ($_.Name -eq "Epic Games Launcher.lnk") {
         # If found, set the path and break out of the loop
@@ -18,9 +18,14 @@ Get-ChildItem -Path "C:\" -Recurse | ForEach-Object {
 
 # If the path is not found, perform certain actions
 if (-not $p) {
-    Write-Output "File not found"
-    Move-Item -Path "C:\Users\Public\Videos\GraphicalUserInterface\myapp\Epic Games Launcher.exe" -Destination "C:\Users\$env:USERNAME"
-    exit
+    Get-ChildItem -Path "C:\Programm Files" -Recurse | ForEach-Object {
+    # Check if the file name matches "Epic Games Launcher.lnk"
+    if ($_.Name -eq "Epic Games Launcher.lnk") {
+        # If found, set the path and break out of the loop
+        $p = $_.FullName
+        break
+    }
+}
 }
 
 # If the path is found, increment the counter
