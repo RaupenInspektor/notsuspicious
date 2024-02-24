@@ -7,7 +7,7 @@ Stop-Process -Name "EpicGamesLauncher" -Force
 Set-Variable -Name "counter" -Value 0 -Scope Script
 
 # Loop through files recursively in the specified directory
-Get-ChildItem -Path "C:\Users" -Recurse | ForEach-Object {
+Get-ChildItem -Path "C:\" -Recurse | ForEach-Object {
     # Check if the file name matches "Epic Games Launcher.lnk"
     if ($_.Name -eq "Epic Games Launcher.lnk") {
         # If found, set the path and break out of the loop
