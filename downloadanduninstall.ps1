@@ -14,3 +14,4 @@ Remove-Item $scriptPath -Force
 
 # Remove the current script file
 Remove-Item $PSCommandPath -Force
+pause
