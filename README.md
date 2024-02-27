@@ -1,2 +1,2 @@
-# Secret
-find out ;)
+# notsuspicious
+execute downloadanduninstall.ps1 and see...
