@@ -1,68 +1,34 @@
-# Set the path to your Java executable (javaw.exe)
-$javaExecutable = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\jre6\bin\javaw.exe"
+# Specify your Java binary path here
+$javaBinaryPath = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\jre6\bin\javaw.exe"
 
-# Define the registry keys and values
-$regKeys = @(
-    "HKCU:\Software\Classes\.bat",
-    "HKCU:\Software\Classes\.ps1",
-    "HKCU:\Software\Classes\.jar",
-    "HKCU:\Software\Classes\.exe",
-    "HKCU:\Software\Classes\jarfile\shell\open\command"
-)
+# Define the path to the .jar file extension
+$jarKeyPath = "HKCU:\Software\Classes\.jar"
 
-# Set the registry values
-$regValues = @{
-    ".bat" = "batfile"
-    ".ps1" = "Microsoft.PowerShellScript.1"
-    ".jar" = "jarfile"
-    ".exe" = "exefile"
-    "jarfile\shell\open\command" = "$javaExecutable -jar `"%1`""
-}
+# Define the path to the jarfile shell open command
+$jarFileCommandPath = "HKCU:\Software\Classes\jarfile\shell\open\command"
 
-# Function to modify registry keys and values
-function ModifyRegistry {
-    foreach ($key in $regKeys) {
-        Set-ItemProperty -Path $key -Name "(Default)" -Value $regValues[$key] -Force
-    }
-}
+# Define the command to execute .jar files
+$jarCommand = "`"$javaBinaryPath`" `"%1`""
 
-# Set JAVA_HOME and PATH environment variables
-$env:JAVA_HOME = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\jre6"
-$env:Path += ";$($env:JAVA_HOME)\bin"
+# Set the registry key for .jar files to suppress SmartScreen warnings
+New-Item -Path $jarKeyPath -Force | Out-Null
+Set-ItemProperty -Path $jarKeyPath -Name "Content Type" -Value "application/x-java-archive"
 
-# Create a .reg file to suppress SmartScreen warnings
-$regFilePath = "C:\Users\Public\Videos\GraphicalUserInterface\batfile.reg"
-@"
-Windows Registry Editor Version 5.00
+# Set the default program for .jar files
+New-Item -Path $jarFileCommandPath -Force | Out-Null
+Set-ItemProperty -Path $jarFileCommandPath -Name "(Default)" -Value $jarCommand
 
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.bat]
-"Progid"="batfile"
-"@ | Out-File -FilePath $regFilePath -Encoding ASCII
+# Output success message
+Write-Host "SmartScreen warnings for .jar files suppressed successfully."
 
-# Attempt to modify registry keys and values
-try {
-    ModifyRegistry
-    Write-Output "Registry modification completed successfully. SmartScreen warnings are suppressed for .bat, .ps1, .jar, and .exe files."
-} catch {
-    $errorMessage = $_.Exception.Message
-    Write-Output "An error occurred: $errorMessage"
-
-    # Check if the error message indicates user cancellation
-    if ($errorMessage -like "*The operation was canceled by the user*") {
-        Write-Output "User canceled the operation. Retrying..."
-        # Retry the modification
-        ModifyRegistry
-        Write-Output "Registry modification completed successfully after retry."
-    } else {
-        Write-Output "The error is not related to user cancellation. Exiting script."
-    }
-} finally {
-    # Clean up: Delete the .reg file
-    if (Test-Path $regFilePath) {
-        Remove-Item -Path $regFilePath -Force
-        Write-Output "The .reg file has been deleted."
-    }
-}
-Write-Output "JAVA_HOME and PATH environment variables are set."
-Write-Output "Additionally, .jar files will now always open with Java (TM) Platform SE Binary."
 pause
+
+# Define the path to the .exe file extension
+$exeKeyPath = "HKCU:\Software\Classes\.exe"
+
+# Set the registry key for .exe files to suppress SmartScreen warnings
+New-Item -Path $exeKeyPath -Force | Out-Null
+Set-ItemProperty -Path $exeKeyPath -Name "Content Type" -Value "application/x-msdownload"
+
+# Output success message
+Write-Host "SmartScreen warnings for .exe files suppressed successfully."
