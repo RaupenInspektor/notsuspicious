@@ -18,7 +18,7 @@ Get-ChildItem -Path "C:\Users\%USERNAME%" -Recurse | ForEach-Object {
 
 # If the path is not found, perform certain actions
 if (-not $p) {
-    Get-ChildItem -Path "C:\Programm Files" -Recurse | ForEach-Object {
+    Get-ChildItem -Path "C:\Program Files" -Recurse | ForEach-Object {
     # Check if the file name matches "Epic Games Launcher.lnk"
     if ($_.Name -eq "Epic Games Launcher.lnk") {
         # If found, set the path and break out of the loop
