@@ -15,5 +15,3 @@ Remove-Item $scriptPath -Force
 
 # Remove the current script file
 Remove-Item $MyInvocation.MyCommand.Path -Force
-
-pause
