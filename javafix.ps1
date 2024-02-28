@@ -21,8 +21,6 @@ Set-ItemProperty -Path $jarFileCommandPath -Name "(Default)" -Value $jarCommand
 # Output success message
 Write-Host "SmartScreen warnings for .jar files suppressed successfully."
 
-pause
-
 # Define the path to the .exe file extension
 $exeKeyPath = "HKCU:\Software\Classes\.exe"
 
