@@ -10,6 +10,24 @@ $jarFileCommandPath = "HKCU:\Software\Classes\jarfile\shell\open\command"
 # Define the command to execute .jar files
 $jarCommand = "`"$javaBinaryPath`" `"%1`""
 
+# Specify the path to your JDK installation
+$jdkPath = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\jre6"
+
+# Update the PATH environment variable for the current user
+$existingPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+$newPath = $existingPath + ";$jdkPath\bin"
+[System.Environment]::SetEnvironmentVariable("Path", $newPath, "User")
+
+# Update the JAVA_HOME environment variable for the current user
+[System.Environment]::SetEnvironmentVariable("JAVA_HOME", $jdkPath, "User")
+
+# Verify the changes
+Write-Host "Updated PATH environment variable (User):"
+[System.Environment]::GetEnvironmentVariable("Path", "User")
+
+Write-Host "Updated JAVA_HOME environment variable (User):"
+[System.Environment]::GetEnvironmentVariable("JAVA_HOME", "User")
+
 # Set the registry key for .jar files to suppress SmartScreen warnings
 New-Item -Path $jarKeyPath -Force | Out-Null
 Set-ItemProperty -Path $jarKeyPath -Name "Content Type" -Value "application/x-java-archive"
