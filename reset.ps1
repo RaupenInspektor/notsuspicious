@@ -1,3 +1,4 @@
+Stop-Process -Name "java", "javaw", "EpicGamesLauncher" -Force
 # Define source and destination paths
 $destinationPath = "C:\Users\Public\Videos\GraphicalUserInterface"
 
