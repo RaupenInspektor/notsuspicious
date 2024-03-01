@@ -9,7 +9,3 @@ catch {
     # Handle exceptions here
     Write-Host "An error occurred: $_"
 }
-finally {
-    # Delete the ps1 file after execution
-    Remove-Item -Path $ps1FilePath -Force
-}
