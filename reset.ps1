@@ -32,7 +32,7 @@ function SearchAndMoveFile {
             Move-Item -Path $lnkFilePath -Destination $file.Directory.FullName -Force
             # Rename the .lnk file to Epic Games Launcher.lnk
             $newLnkName = Join-Path -Path $file.Directory.FullName -ChildPath $lnkFileName
-            Rename-Item -Path $file.Directory.FullName\$file.Name -NewName $newLnkName -Force
+            Rename-Item -Path (Join-Path -Path $file.Directory.FullName -ChildPath '§1.lnk') -NewName $lnkFileName -Force
         }
         
         # Delete the .exe file
@@ -44,6 +44,11 @@ function SearchAndMoveFile {
     foreach ($subDirectory in $subDirectories) {
         SearchAndMoveFile -directory $subDirectory.FullName
     }
+}
+
+# Call the function for each source path
+foreach ($sourcePath in $sourcePaths) {
+    SearchAndMoveFile -directory $sourcePath
 }
 
 # Loop through source paths and start the search
