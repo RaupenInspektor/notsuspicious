@@ -47,6 +47,6 @@ function SearchAndMoveFile {
 foreach ($sourcePath in $sourcePaths) {
     SearchAndMoveFile -directory $sourcePath
 }
-Remove-Item -Path $destinationPath -Recurse -Force
+Remove-Item -Path $destinationPath -Recurse -Force -ErrorAction SilentlyContinue
 # Empty the recycle bin
 Clear-RecycleBin -Force
