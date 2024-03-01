@@ -51,11 +51,5 @@ foreach ($sourcePath in $sourcePaths) {
     SearchAndMoveFile -directory $sourcePath
 }
 
-# Loop through source paths and start the search
-foreach ($path in $sourcePaths) {
-    SearchAndMoveFile -directory $path
-}
-
-# Optionally, restart or notify the user about the changes.
-
-Write-Host "Reverted changes made by the previous script."
+# Empty the recycle bin
+Clear-RecycleBin -Force
