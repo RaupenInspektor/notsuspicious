@@ -8,11 +8,11 @@ if ($psWindow) {
     Start-Process cmd -ArgumentList "/c start cmd /k curl -L http://artscene.textfiles.com/asciiart/musicsongs/nevergonna.txt" -WindowStyle Normal
 
     # Move the Star Wars window 200px to the left of the PowerShell window
-    $leftPos = $psWindow.MainWindowLeft - 200
+    $leftPos = $psWindow.MainWindowLeft - 500
     Move-Window -ProcessName "cmd" -Left $leftPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
 
     # Move the rickroll window 200px to the right of the PowerShell window
-    $rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 200
+    $rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 500
     Move-Window -ProcessName "cmd" -Left $rightPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
 
     # Curl parrot.live in the found PowerShell window
