@@ -4,14 +4,19 @@ $psWindow = Get-Process -Name powershell | Where-Object { $_.MainWindowTitle -ne
 if ($psWindow) {
     # Start Star Wars in a new Command Prompt window to the left
     Start-Process cmd -ArgumentList "/c start telnet towel.blinkenlights.nl" -WindowStyle Normal
-    # Start rickroll in ASCII in a new Command Prompt window to the right
-    Start-Process cmd -ArgumentList "/c start cmd /k curl -L http://artscene.textfiles.com/asciiart/musicsongs/nevergonna.txt" -WindowStyle Normal
+    # Start rickroll in ASCII in a new Ct-Process cmd -ArgumentList "/c start cmd /k curl -L http://artscene.textfiles.com/asciiart/musicsongs/nevergonna.txt" -WindowStyle Normal
 
     # Move the Star Wars window 200px to the left of the PowerShell window
     $leftPos = $psWindow.MainWindowLeft - 200
     Move-Window -ProcessName "cmd" -Left $leftPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
 
-    # Move the rickroll window 200px to the right of the PowerShell window
+    # Move the rickroll window 20znrj runrunrjnenehmrmehmhrneumrumeumejnhenejneunehneunemrimrimrunrunueneuneuneznhenhenehnhemehneznjenehnejneunuenrunjrnetnhengenheneznezneznwhnehnheneunuenezbeznehnehnehnehnehneumrunrunurnrunirnzl tomto
+    tomtotl
+    krnrerjmeek
+    ej
+    dj dj ej je
+    ejk
+    eime0px to the right of the PowerShell window
     $rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 200
     Move-Window -ProcessName "cmd" -Left $rightPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
 
