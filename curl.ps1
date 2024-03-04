@@ -2,7 +2,7 @@
 # Start Star Wars in a new Command Prompt window to the left
 Start-Process cmd -ArgumentList "/c start telnet towel.blinkenlights.nl" -WindowStyle Normal
 # Start rickroll in ASCII in a new Command Prompt window to the right
-Start-Process cmd -ArgumentList "/c start cmd /k curl -L http://artscene.textfiles.com/asciiart/musicsongs/nevergonna.txt" -WindowStyle Normal
+Start-Process cmd -ArgumentList "/c start cmd /k curl ascii.live/rick" -WindowStyle Normal
 
 # Wait for a moment to let the windows start
 Start-Sleep -Seconds 5
