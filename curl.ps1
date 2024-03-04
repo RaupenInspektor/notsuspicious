@@ -1,5 +1,5 @@
 # Find existing PowerShell window
-$psWindow = Get-Process -Name powershell | Where-Object { $_.MainWindowTitle -ne "" }
+$psWindow = Get-Process -Name powershell.exe | Where-Object { $_.MainWindowTitle -ne "" }
 
 if ($psWindow) {
     # Start Star Wars in a new Command Prompt window to the left
