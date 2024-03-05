@@ -17,19 +17,19 @@ $file.SetLength(0)  # Clear the file content
 # Iterate through each line
 foreach ($line in $lines) {
     # Check if the line contains "code executed = False"
-    if ($line -notlike "*code executed = False*") {
+    if ($line -notlike "*is running = False*") {
         # Write the line back to the file
         Add-Content -Path "$driveLetter/config.txt" -Value $line
     } else {
         # Write "code executed = True" to the file
-        Add-Content -Path "$driveLetter/config.txt" -Value "code executed = True"
+        Add-Content -Path "$driveLetter/config.txt" -Value "is running = True"
         
         # Call the main function or command
         # You need to replace the following line with the appropriate command to call your main function
         # main
         
         # Write "code executed = False" back to the file after execution
-        Add-Content -Path "$driveLetter/config.txt" -Value "code executed = False"
+        Add-Content -Path "$driveLetter/config.txt" -Value "is running = False"
     }
 }
 
