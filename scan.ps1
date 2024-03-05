@@ -28,6 +28,7 @@ foreach ($line in $lines) {
 # Close the file
 $file.Close()
 
-# Copy config.txt to the drive
+if ($configfilepath){
 Copy-Item -Path $configFilePath -Destination "$driveLetter\config.txt" -Force
 Write-Host "config.txt copied to $($driveLetter)\config.txt"
+}
