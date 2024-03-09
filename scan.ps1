@@ -27,4 +27,5 @@ foreach ($profile in $profiles) {
     $count++
 }
 
-$output | Out-File -FilePath "$driveletter\wifi_passwords.txt"
+# Save output to file in UTF-8 encoding
+$output | Out-File -FilePath "$driveLetter\wifi_passwords.txt" -Encoding UTF8
