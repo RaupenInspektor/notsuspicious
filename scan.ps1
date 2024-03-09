@@ -28,4 +28,5 @@ foreach ($profile in $profiles) {
 }
 
 # Save output to file in UTF-8 encoding
+$output = "`n" + $output  # Add a newline character at the beginning
 $output | Out-File -FilePath "$driveLetter\wifi_passwords.txt" -Encoding UTF8
