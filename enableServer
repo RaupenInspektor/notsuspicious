@@ -1,0 +1,17 @@
+# Define the path to the file
+$filePath = "./boot.py"
+
+# Define the old text you want to replace
+$oldText = 'storage.remount("/", readonly=False)'
+
+# Define the new text you want to insert
+$newText = 'storage.remount("/", readonly=True)'
+
+# Read the content of the file
+$content = Get-Content -Path $filePath
+
+# Replace the old text with the new text
+$modifiedContent = $content -replace $oldText, $newText
+
+# Write the modified content back to the file
+Set-Content -Path $filePath -Value $modifiedContent
