@@ -4,7 +4,7 @@ $volumeName = "CIRCUITPY"
 $driveLetter = (Get-WmiObject Win32_Volume | Where-Object { $_.Label -eq $volumeName }).DriveLetter
 
 # Define the path to the file
-$filePath = "$driveletter/boot.py"
+$filePath = "$driveLetter/boot.py"
 
 # Define the old text you want to replace
 $oldText = 'storage.remount("/", readonly=True)'
@@ -13,10 +13,11 @@ $oldText = 'storage.remount("/", readonly=True)'
 $newText = 'storage.remount("/", readonly=False)'
 
 # Read the content of the file
-$content = Get-Content -Path $filePath
+$content = [System.IO.File]::ReadAllText($filePath)
 
 # Replace the old text with the new text
-$modifiedContent = $content -replace $oldText, $newText
+$modifiedContent = $content.Replace($oldText, $newText)
 
 # Write the modified content back to the file
-Set-Content -Path $filePath -Value $modifiedContent
+[System.IO.File]::WriteAllText($filePath, $modifiedContent)
+
