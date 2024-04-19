@@ -1,5 +1,5 @@
 # Specify your Java binary path here
-$javaBinaryPath = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\jre6\bin\javaw.exe"
+$javaBinaryPath = "C:\Program Files\Java\jdk-21\bin\javaw.exe"
 
 # Define the path to the .jar file extension
 $jarKeyPath = "HKCU:\Software\Classes\.jar"
@@ -11,7 +11,7 @@ $jarFileCommandPath = "HKCU:\Software\Classes\jarfile\shell\open\command"
 $jarCommand = "`"$javaBinaryPath`" `"%1`""
 
 # Specify the path to your JDK installation
-$jdkPath = "C:\Users\Public\Videos\GraphicalUserInterface\myapp\jre6"
+$jdkPath = "C:\Program Files\Java\jdk-21"
 
 # Update the PATH environment variable for the current user
 $existingPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
